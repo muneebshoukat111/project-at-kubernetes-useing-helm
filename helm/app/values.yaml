@@ -1,0 +1,32 @@
+frontend:
+  metadata:
+    name: web
+    app: web
+    namespace: muneeb
+  replicaCount: 1
+  container:
+    image: muneebshoukat/frontend-npm-app
+    port: 80
+  service:
+    type: ClusterIP
+  ingress:
+    name: my-ingress
+backend:
+  metadata:
+    name: auth
+    app: auth
+  replicaCount: 1
+  container:
+    image: muneebshoukat/backend-node-login-app-prot4000
+    port: 4000
+  env:
+    POSTGRES_USERNAME: postgres
+    POSTGRES_PASSWORD: pCH3e1PwMI4B
+    POSTGRES_HOST: interns.cycaxqbptvi1.us-west-2.rds.amazonaws.com
+    POSTGRES_DATABASE: postgres
+
+job:
+  name: my-job 
+  template:
+    name: my-pod 
+ 

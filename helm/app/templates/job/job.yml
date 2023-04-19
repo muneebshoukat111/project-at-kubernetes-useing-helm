@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{.Values.job.name }}
+  namespace: {{ .Values.frontend.metadata.namespace }}
+spec:
+  template:
+    metadata:
+      name: {{ .Values.job.template.name }}
+    spec:
+      containers:
+      - name: {{ .Values.backend.metadata.name }}
+        image: {{ .Values.backend.container.image }}
+        command: 
+          - sh
+          - "entrypoint.sh"
+        env:
+          - name: POSTGRES_USERNAME
+            value: "{{ .Values.backend.env.POSTGRES_USERNAME }}"
+          - name: POSTGRES_PASSWORD
+            value: "{{ .Values.backend.env.POSTGRES_PASSWORD }}"
+          - name: POSTGRES_HOST
+            value: "{{ .Values.backend.env.POSTGRES_HOST }}"
+          - name: POSTGRES_DATABASE
+            value: "{{ .Values.backend.env.POSTGRES_DATABASE }}"
+          - name: POSTGRES_PORT
+            value: "{{ .Values.backend.env.POSTGRES_PORT }}"
+
+      restartPolicy: Never
+  backoffLimit: 4
+
+
